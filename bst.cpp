@@ -30,18 +30,40 @@ public:
 
 
 
-void printprePost(node *obj) {
-	if(obj == NULL) {
+void printPreOrderTraversal(node *root) {
+	if(root == NULL) {
 		return;
 	}
 	
-	printPrePost(obj->left);
-	cout << " " << obj->getData();
+	cout << " " << root->getData();
+	printPreOrderTraversal(root->left);
+	printPreOrderTraversal(root->right);
 	
+	return;
+}
+
+void printInOrderTraversal(node *root) {
+	if(root == NULL) {
+		return;
+	}
 	
-	printPrePost(obj->right);
-	cout << " " << obj->getData();
+	printInOrderTraversal(root->left);
+	cout << " " << root->getData();
+	printInOrderTraversal(root->right);
 	
+	return;
+}
+
+void printPostOrderTraversal(node *root) {
+	if(root == NULL) {
+		return;
+	}
+	
+	printPostOrderTraversal(root->left);
+	printPostOrderTraversal(root->right);
+	cout << " " << root->getData();
+	
+	return;
 }
 
 int main() {
@@ -65,8 +87,6 @@ int main() {
 			do {
 				cout << "\nEnter data : ";
 				cin >> data;
-				curr = new node;
-				curr->setData(data);
 				
 				if (root == NULL) {
 					root = new node(data);
@@ -75,14 +95,14 @@ int main() {
 					while(temp!=NULL) {
 						if(data < temp->getData()) {
 							if(temp->left == NULL) {
-								temp->left = curr;
+								temp->left = new node(data);
 							} else {
 								temp = temp->left;
 							}
 							
 						} else if(data > temp->getData()) {
-							if(temp->left == NULL) {
-								temp->left = curr;
+							if(temp->right == NULL) {
+								temp->right = new node(data);
 							} else {
 								temp = temp->right; 
 							}
@@ -90,21 +110,27 @@ int main() {
 							temp = NULL;
 						}
 					}
-					delete curr;
 				}
 				
 				cout << "\nDo you want to insert another node : ";
 				cin >> ch;
 			} while (ch == 'y');
-			
+				
 		} else if (task == 2) {
+			cout << "\nPre-order Traversal :";
+			printPreOrderTraversal(root);
 			
+			cout << "\nIn-order Traversal :";
+			printInOrderTraversal(root);
+			
+			cout << "\nPost-order Traversal :";
+			printPostOrderTraversal(root);
 		} else {
 			cout << "\nError : Invalid task.\n";
 		}
 		
-		cout << "\nDo you want to continue : ";
-		cin >> choice;
+//		cout << "\nDo you want to continue : ";
+//		cin >> choice;
 	} while (choice == 'y');
 	
 	
